@@ -10,17 +10,17 @@
 class Player
 {
 private:
-    ushort id = 0;
+    unsigned short id = 0;
     const char * name;
-    ushort matchesWon = 0;
-    ushort matchesLost = 0;
+    unsigned short matchesWon = 0;
+    unsigned short matchesLost = 0;
 public:
-    Player(ushort id, const char * name);
+    Player(unsigned short id, const char * name);
     ~Player();
-    ushort getId();
+    unsigned short getId();
     const char * getName();
-    ushort getMatchesWon();
-    ushort getMatchesLost();
+    unsigned short getMatchesWon();
+    unsigned short getMatchesLost();
 
     void winMatch();
     void looseMatch();

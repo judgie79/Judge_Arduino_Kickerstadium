@@ -1,6 +1,6 @@
 #include "Team.h"
 
-Team::Team(ushort id, const char * name, Player *playerFront, Player *playerBack)
+Team::Team(unsigned short id, const char * name, Player *playerFront, Player *playerBack)
 {
     this->id = id;
     this->name = name;
@@ -13,7 +13,7 @@ Team::~Team()
 }
 
 
-ushort Team::getId()
+unsigned short Team::getId()
 {
     return id;
 }
@@ -33,12 +33,12 @@ Player *Team::getPlayerBack()
     return playerBack;
 }
 
-ushort Team::getMatchesWon()
+unsigned short Team::getMatchesWon()
 {
     return matchesWon;
 }
 
-ushort Team::getMatchesLost()
+unsigned short Team::getMatchesLost()
 {
     return matchesLost;
 }

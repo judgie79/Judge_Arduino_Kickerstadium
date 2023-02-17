@@ -7,16 +7,19 @@
 #include "WProgram.h"
 #endif
 
+#include <DebugLog.h>
+#include <Ticker.h>
 #include "Callback.h"
-#include <ButtonSensor.h>
+#include <IRColissionSensor.h>
 #include "KickerMatch.h"
 #include "Team.h"
+#include "Scoreboard.h"
 
 class Stadium
 {
 private:
-    ButtonSensor sensorRedGoal;
-    ButtonSensor sensorBlueGoal;
+    IRColissionSensor sensorRedGoal;
+    IRColissionSensor sensorBlueGoal;
     void readGoalSensors();
 
     Callback<long, byte, Team*> gsListeners;
@@ -28,13 +31,21 @@ private:
     MatchWonPtr matchWonPtr;
     MatchPausedPtr matchPausedPtr;
     MatchStartedPtr matchStartedPtr;
+
+    
+    Ticker ticker;
 public:
     Stadium(byte sensorPinRedGoal, byte sensorPinBlueGoal);
     ~Stadium();
 
     KickerMatch *currentMatch = nullptr;
+
+    ScoreBoard scoreboard;
     Team *red = nullptr;
     Team *blue = nullptr;
+
+    void setup();
+    void update();
 
     void prepareMatch(Team *red, Team *blue, byte goalsNeededToWin = WIN_MATCH_SCORE);
     void startMatch();
@@ -59,6 +70,8 @@ public:
     void removeMatchPausedListener(MatchPausedPtr callback);
     void removeMatchStartedListener(MatchStartedPtr callback);
 
+
+    void onTimer();
 };
 
 

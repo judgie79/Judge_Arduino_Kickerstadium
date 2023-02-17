@@ -3,6 +3,13 @@
 #include "Preferences.h"
 #endif
 
+// #include <SPI.h>
+// #include <SD.h>
+
+
+// Define debug message function
+// static int16_t DebugOut(char ch) { if (ch == (char)'\n') Serial.println(""); else Serial.write(ch); return 0; }
+
 #include "Stadium.h"
 #include "Team.h"
 #include "Player.h"
@@ -26,34 +33,35 @@ void matchStarted(long matchTime);
 void matchPaused(long matchTime);
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(1000);
 
   Serial.println("init");
+  stadium.setup();
+  // put your setup code here, to run once:
+ stadium.prepareMatch(&teamRed, &teamBlue);
+
+  
   Serial.println("add listeners");
   stadium.addGoalScoredListener(goalScored);
   stadium.addMatchPausedListener(matchPaused);
   stadium.addMatchStartedListener(matchStarted);
   stadium.addMatchWonListener(matchWon);
-
-
-  // put your setup code here, to run once:
-  stadium.prepareMatch(&teamRed, &teamBlue);
-
-  
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
-  if (!stadium.matchInPlay()) 
-  {
-    Serial.println("not started");
-    stadium.startMatch();
-  } else {
-    stadium.currentMatch->play();
-  }
+   if (!stadium.matchInPlay()) 
+   {
+     Serial.println("not started");
+     stadium.startMatch();
+   } else {
+     stadium.update();
+   }
 }
+
+
 
 void goalScored(long matchTime, byte side, Team* team)
 {

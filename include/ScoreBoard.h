@@ -1,61 +1,78 @@
 #ifndef __SCOREBOARD_H
 #define __SCOREBOARD_H
 
-/*******************************************************************************
- * Start of Arduino_GFX setting
- * 
- * Arduino_GFX try to find the settings depends on selected board in Arduino IDE
- * Or you can define the display dev kit not in the board list
- * Defalult pin list for non display dev kit:
- * Arduino Nano, Micro and more: CS:  9, DC:  8, RST:  7, BL:  6, SCK: 13, MOSI: 11, MISO: 12
- * ESP32 various dev board     : CS:  5, DC: 27, RST: 33, BL: 22, SCK: 18, MOSI: 23, MISO: nil
- * ESP32-C3 various dev board  : CS:  7, DC:  2, RST:  1, BL:  3, SCK:  4, MOSI:  6, MISO: nil
- * ESP32-S2 various dev board  : CS: 34, DC: 35, RST: 33, BL: 21, SCK: 36, MOSI: 35, MISO: nil
- * ESP32-S3 various dev board  : CS: 40, DC: 41, RST: 42, BL: 48, SCK: 36, MOSI: 35, MISO: nil
- * ESP8266 various dev board   : CS: 15, DC:  4, RST:  2, BL:  5, SCK: 14, MOSI: 13, MISO: 12
- * Raspberry Pi Pico dev board : CS: 17, DC: 27, RST: 26, BL: 28, SCK: 18, MOSI: 19, MISO: 16
- * RTL8720 BW16 old patch core : CS: 18, DC: 17, RST:  2, BL: 23, SCK: 19, MOSI: 21, MISO: 20
- * RTL8720_BW16 Official core  : CS:  9, DC:  8, RST:  6, BL:  3, SCK: 10, MOSI: 12, MISO: 11
- * RTL8722 dev board           : CS: 18, DC: 17, RST: 22, BL: 23, SCK: 13, MOSI: 11, MISO: 12
- * RTL8722_mini dev board      : CS: 12, DC: 14, RST: 15, BL: 13, SCK: 11, MOSI:  9, MISO: 10
- * Seeeduino XIAO dev board    : CS:  3, DC:  2, RST:  1, BL:  0, SCK:  8, MOSI: 10, MISO:  9
- * Teensy 4.1 dev board        : CS: 39, DC: 41, RST: 40, BL: 22, SCK: 13, MOSI: 11, MISO: 12
- ******************************************************************************/
-#include <Arduino_GFX_Library.h>
+#if (ARDUINO >= 100)
+#include "Arduino.h"
+#else
+#include "WProgram.h"
+#endif
 
-#define GFX_BL DF_GFX_BL // default backlight pin, you may replace DF_GFX_BL to actual backlight pin
+#include "GUIslice.h"
+#include "GUIslice_drv.h"
+#include <TFT_eSPI.h> // Hardware-specific library
+#include <SPI.h>
 
-/* More dev device declaration: https://github.com/moononournation/Arduino_GFX/wiki/Dev-Device-Declaration */
-#if defined(DISPLAY_DEV_KIT)
-Arduino_GFX *gfx = create_default_Arduino_GFX();
-#else /* !defined(DISPLAY_DEV_KIT) */
+  // ------------------------------------------------
+// Defines for resources
+// ------------------------------------------------
+//<Resources !Start!>
+//<Resources !End!>
 
-/* More data bus class: https://github.com/moononournation/Arduino_GFX/wiki/Data-Bus-Class */
-Arduino_DataBus *bus = create_default_Arduino_DataBus();
+// ------------------------------------------------
+// Enumerations for pages, elements, fonts, images
+// ------------------------------------------------
+//<Enum !Start!>
+enum {E_PG_MAIN};
+enum {E_ELEM_TEXT4,MATCH_TIME,SCORE_BLUE,SCORE_RED};
+// Must use separate enum for fonts with MAX_FONT at end to use gslc_FontSet.
+enum {E_BUILTIN20X32,MAX_FONT};
+//<Enum !End!>
 
-/* More display class: https://github.com/moononournation/Arduino_GFX/wiki/Display-Class */
-Arduino_GFX *gfx = new Arduino_ILI9341(bus, DF_GFX_RST, 0 /* rotation */, false /* IPS */);
+#define MAX_STR 100
 
-#endif /* !defined(DISPLAY_DEV_KIT) */
-/*******************************************************************************
- * End of Arduino_GFX setting
- ******************************************************************************/
+// ------------------------------------------------
+// Instantiate the GUI
+// ------------------------------------------------
 
-/* more fonts at: https://github.com/moononournation/ArduinoFreeFontFile.git */
-#include "FreeMono8pt7b.h"
-#include "FreeSansBold10pt7b.h"
-#include "FreeSerifBoldItalic12pt7b.h"
+// ------------------------------------------------
+// Define the maximum number of elements and pages
+// ------------------------------------------------
+//<ElementDefines !Start!>
+#define MAX_PAGE                1
+
+#define MAX_ELEM_PG_MAIN 4 // # Elems total on page
+#define MAX_ELEM_PG_MAIN_RAM MAX_ELEM_PG_MAIN // # Elems in RAM
+//<ElementDefines !End!>
+
+static int16_t DebugOut(char ch) { if (ch == (char)'\n') Serial.println(""); else Serial.write(ch); return 0; }
 
 class ScoreBoard
 {
 private:
-    /* data */
-public:
-    ScoreBoard(/* args */);
-    ~ScoreBoard();
 
-    void init();
-    void update();
+  // ------------------------------------------------
+  // Create element storage
+  // ------------------------------------------------
+  gslc_tsGui                      m_gui;
+  gslc_tsDriver                   m_drv;
+  gslc_tsFont                     m_asFont[MAX_FONT];
+  gslc_tsPage                     m_asPage[MAX_PAGE];
+
+  //<GUI_Extra_Elements !Start!>
+  gslc_tsElem                     m_asPage1Elem[MAX_ELEM_PG_MAIN_RAM];
+  gslc_tsElemRef                  m_asPage1ElemRef[MAX_ELEM_PG_MAIN];
+
+  gslc_tsElemRef* m_match_time;
+  gslc_tsElemRef* m_score_blue;
+  gslc_tsElemRef* m_score_red;
+public:
+  ScoreBoard();
+  ~ScoreBoard();
+  void setup();
+  void update();
+
+  void setScore(byte redScore, byte blueScore);
+  void setTime(long time);
 };
 
 #endif

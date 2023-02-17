@@ -85,6 +85,9 @@ public:
     bool hasStarted();
     bool isRunning();
     bool hasFinished();
+
+    byte currentScoreRed();
+    byte currentScoreBlue();
 };
 
 

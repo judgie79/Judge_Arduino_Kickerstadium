@@ -1,7 +1,7 @@
 #include "Player.h"
 
 
-Player::Player(ushort id, const char * name)
+Player::Player(unsigned short id, const char * name)
 {
     this->id = id;
     this->name = name;
@@ -12,7 +12,7 @@ Player::~Player()
     
 }
 
-ushort Player::getId()
+unsigned short Player::getId()
 {
     return id;
 }
@@ -22,12 +22,12 @@ const char * Player::getName()
     return name;
 }
 
-ushort Player::getMatchesWon()
+unsigned short Player::getMatchesWon()
 {
     return matchesWon;
 }
 
-ushort Player::getMatchesLost()
+unsigned short Player::getMatchesLost()
 {
     return matchesLost;
 }

@@ -27,10 +27,10 @@
 // Note that font files are located within the Adafruit-GFX library folder:
 // ------------------------------------------------
 //<Fonts !Start!>
-#if defined(DRV_DISP_TFT_ESPI)
-  #error E_PROJECT_OPTIONS tab->Graphics Library should be TFT_eSPI
+#if !defined(DRV_DISP_TFT_ESPI)
+  #error E_PROJECT_OPTIONS tab->Graphics Library should be Adafruit_GFX
 #endif
-#include <Adafruit_GFX.h>
+#include <TFT_eSPI.h>
 //<Fonts !End!>
 
 // ------------------------------------------------
@@ -85,6 +85,9 @@ gslc_tsElemRef                  m_asPage1ElemRef[MAX_ELEM_PG_MAIN];
 
 // Element References for direct access
 //<Extern_References !Start!>
+extern gslc_tsElemRef* m_match_time;
+extern gslc_tsElemRef* m_score_blue;
+extern gslc_tsElemRef* m_score_red;
 //<Extern_References !End!>
 
 // Define debug message function
@@ -126,7 +129,7 @@ void InitGUIslice_gen()
   gslc_SetPageCur(&m_gui,E_PG_MAIN);
   
   // Set Background to a flat color
-  gslc_SetBkgndColor(&m_gui,GSLC_COL_BLACK);
+  gslc_SetBkgndColor(&m_gui,((gslc_tsColor){18,18,18}));
 
   // -----------------------------------
   // PAGE: E_PG_MAIN
@@ -136,21 +139,32 @@ void InitGUIslice_gen()
   pElemRef = gslc_ElemCreateTxt(&m_gui,SCORE_RED,E_PG_MAIN,(gslc_tsRect){234,104,24,32},
     (char*)"0",0,E_BUILTIN20X32);
   gslc_ElemSetFillEn(&m_gui,pElemRef,false);
+  gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}));
+  gslc_ElemSetCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}),((gslc_tsColor){18,18,18}),GSLC_COL_BLACK);
+  m_score_red = pElemRef;
   
   // Create SCORE_BLUE text label
   pElemRef = gslc_ElemCreateTxt(&m_gui,SCORE_BLUE,E_PG_MAIN,(gslc_tsRect){60,104,24,32},
     (char*)"0",0,E_BUILTIN20X32);
   gslc_ElemSetFillEn(&m_gui,pElemRef,false);
+  gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}));
+  gslc_ElemSetCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}),((gslc_tsColor){18,18,18}),GSLC_COL_BLACK);
+  m_score_blue = pElemRef;
   
   // Create E_ELEM_TEXT4 text label
   pElemRef = gslc_ElemCreateTxt(&m_gui,E_ELEM_TEXT4,E_PG_MAIN,(gslc_tsRect){148,104,24,32},
     (char*)":",0,E_BUILTIN20X32);
   gslc_ElemSetFillEn(&m_gui,pElemRef,false);
+  gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}));
+  gslc_ElemSetCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}),((gslc_tsColor){18,18,18}),GSLC_COL_BLACK);
   
   // Create MATCH_TIME text label
   pElemRef = gslc_ElemCreateTxt(&m_gui,MATCH_TIME,E_PG_MAIN,(gslc_tsRect){148,10,24,32},
     (char*)"0",0,E_BUILTIN20X32);
   gslc_ElemSetFillEn(&m_gui,pElemRef,false);
+  gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}));
+  gslc_ElemSetCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}),((gslc_tsColor){18,18,18}),GSLC_COL_BLACK);
+  m_match_time = pElemRef;
 //<InitGUI !End!>
 
 //<Startup !Start!>

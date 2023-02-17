@@ -28,7 +28,6 @@ void KickerMatch::start(Team *red, Team *blue)
     isStarted = true;
     isFinished = false;
     matchWinner = nullptr;
-
     msListeners(matchTime);
 }
 
@@ -124,6 +123,16 @@ bool KickerMatch::isRunning()
 bool KickerMatch::hasFinished()
 {
     return isFinished;
+}
+
+byte KickerMatch::currentScoreRed()
+{
+    return scoreRed;
+}
+
+byte KickerMatch::currentScoreBlue()
+{
+    return scoreBlue;
 }
 
 GoalScoredPtr KickerMatch::addGoalScoredListener(GoalScored callback)
