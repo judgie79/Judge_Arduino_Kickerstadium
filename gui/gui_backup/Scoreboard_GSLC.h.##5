@@ -136,7 +136,7 @@ void InitGUIslice_gen()
   
   
   // Create SCORE_RED text label
-  pElemRef = gslc_ElemCreateTxt(&m_gui,SCORE_RED,E_PG_MAIN,(gslc_tsRect){234,104,50,32},
+  pElemRef = gslc_ElemCreateTxt(&m_gui,SCORE_RED,E_PG_MAIN,(gslc_tsRect){234,104,24,32},
     (char*)"0",0,E_BUILTIN20X32);
   gslc_ElemSetFillEn(&m_gui,pElemRef,false);
   gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}));
@@ -144,7 +144,7 @@ void InitGUIslice_gen()
   m_score_red = pElemRef;
   
   // Create SCORE_BLUE text label
-  pElemRef = gslc_ElemCreateTxt(&m_gui,SCORE_BLUE,E_PG_MAIN,(gslc_tsRect){60,104,50,32},
+  pElemRef = gslc_ElemCreateTxt(&m_gui,SCORE_BLUE,E_PG_MAIN,(gslc_tsRect){60,104,24,32},
     (char*)"0",0,E_BUILTIN20X32);
   gslc_ElemSetFillEn(&m_gui,pElemRef,false);
   gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}));
@@ -159,9 +159,8 @@ void InitGUIslice_gen()
   gslc_ElemSetCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}),((gslc_tsColor){18,18,18}),GSLC_COL_BLACK);
   
   // Create MATCH_TIME text label
-  pElemRef = gslc_ElemCreateTxt(&m_gui,MATCH_TIME,E_PG_MAIN,(gslc_tsRect){35,10,250,32},
+  pElemRef = gslc_ElemCreateTxt(&m_gui,MATCH_TIME,E_PG_MAIN,(gslc_tsRect){148,10,24,32},
     (char*)"0",0,E_BUILTIN20X32);
-  gslc_ElemSetTxtAlign(&m_gui,pElemRef,GSLC_ALIGN_MID_MID);
   gslc_ElemSetFillEn(&m_gui,pElemRef,false);
   gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}));
   gslc_ElemSetCol(&m_gui,pElemRef,((gslc_tsColor){228,228,229}),((gslc_tsColor){18,18,18}),GSLC_COL_BLACK);
